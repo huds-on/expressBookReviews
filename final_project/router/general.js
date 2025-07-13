@@ -44,7 +44,24 @@ public_users.get('/isbn/:isbn',function (req, res) {
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let bookPromise = new Promise((resolve,reject) => {
+    let author = req.params.author;
+  let result_list = [];
+  for (const key in books) {
+    if (Object.hasOwnProperty.call(books, key)) {
+        const element = books[key];
+        if (element.author === author){
+            result_list.push(element); 
+        }
+    }
+  }
+  if (result_list.length){
+    resolve(result_list)
+  }
+  reject(result_list)
+      
+    })
+  bookPromise.then(result => res.status(200).json(result)).catch(error => res.status(300).json(error))
 });
 
 // Get all books based on title
