@@ -53,6 +53,17 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   return res.send(books[isbn]);
 });
 
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  //Write your code here
+  // Token is valid, send welcome message with username
+  let isbn = req.params.isbn;
+  let book = books[isbn];
+  let username = req.session.user;
+  delete book.reviews[username];
+  books[isbn] = book;
+  return res.send(books[isbn]);
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
