@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 let books = require("./booksdb.js");
 const regd_users = express.Router();
 
-let users = [];
+let users = [
+   { username: "testuser", password: "password123" }
+];
 const secretKey = 'SECRETKEY'; 
 const isValid = (username)=>{ //returns boolean
 //write code to check is the username is valid
@@ -12,7 +14,7 @@ const isValid = (username)=>{ //returns boolean
 
 const authenticatedUser = (username,password)=>{ //returns boolean
 //write code to check if username and password match the one we have in records.
-return users.find(user => user.username == username && user.password == password) == undefined;
+return users.find(user => user.username == username && user.password == password) !== undefined;
 }
 
 //only registered users can login
@@ -34,6 +36,7 @@ regd_users.post("/login", (req,res) => {
   if (authenticatedUser(username, password)) {
     req.session.user = username;
     req.session.jwt = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+    console.log("token: ",token)
     res.send('Logged in successfully');
   } else {
     res.send('Either your username / password is invalid');

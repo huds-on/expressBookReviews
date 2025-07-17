@@ -6,6 +6,7 @@ const public_users = express.Router();
 
 
 public_users.post("/register", (req,res) => {
+    console.log(req.body);
   //Write your code here
   let username = req.body.username;
   let password = req.body.password;
@@ -13,9 +14,9 @@ public_users.post("/register", (req,res) => {
     return res.status(400).json({message: "Username/Password is invalid."});
   }
 
-  if (users.find(user => user.username === username)){
-    return res.status(400).json({message: "Username/Password is invalid."});
-  }
+  // if (users.find(user => user.username === username)){
+  //   return res.status(400).json({message: "Username/Password is invalid."});
+  // }
   
   users.push({"username":username, "password": password});
 
